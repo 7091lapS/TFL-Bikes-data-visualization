@@ -5,6 +5,8 @@
     <title>Boris Bikes Visualization</title>
     <script type="text/javascript" src="d3/d3.v3.js"></script>
     <script src="http://d3js.org/topojson.v0.min.js"></script>
+    <script src="bikesDataPlaceholder.json"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <script type="text/javascript">
@@ -61,6 +63,17 @@
         		.attr("class", "water")
         		.attr("d", path);
         });
+
+        // svg.selectAll("circle")
+        //   .data(bikesData)
+        //   .enter()
+        //   .append("circle")
+        //   .attr("cx", function(d) {
+        //
+        //   })
+        //   .attr("r", 5)
+        //    .style("fill", "yellow")
+        //    .style("opacity", 0.75);
     </script>
   </body>
 </html>

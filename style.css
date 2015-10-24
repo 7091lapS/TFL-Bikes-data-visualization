@@ -1,0 +1,23 @@
+.landuse {
+  fill: #efefef;
+}
+.water {
+  fill: lightblue;
+}
+.roads {
+  fill: none;
+  stroke: #777;
+  stroke-width: 0.3px;
+}
+
+.roads_residential {
+  fill: none;
+}
+
+.roads_primary {
+  fill: none;
+}
+
+.roads_trunk {
+  fill: none;
+}
