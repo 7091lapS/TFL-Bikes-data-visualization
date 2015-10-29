@@ -14,8 +14,9 @@
       var h = 1000;
       var projection = d3.geo.mercator()
         .translate([600, h/2])
-	      .center([0.0, 51.4971])
-	      .scale(190000);
+	      .center([0.0, 51.4979])
+	      .scale(150000);
+
       var path = d3.geo.path()
         .projection(projection);
 
@@ -30,6 +31,9 @@
         var roads_primary = svg.append("g");
         var roads_trunk = svg.append("g");
         var water = svg.append("g");
+        var dockSize = svg.append('g');
+      
+
 
         d3.json('london.topo.json', function(data) {
 
@@ -62,21 +66,31 @@
         		.datum(topojson.object(data, data.objects.waterway))
         		.attr("class", "water")
         		.attr("d", path);
+
         });
 
-        svg.selectAll("circle")
-          .data(bikesData)
+        var pointsData = [];
+        for (var i=0; i < bikesData.length; i++) {
+          pointsData[i] = projection([bikesData[i].lon, bikesData[i].lat]);
+          pointsData[i].push(bikesData[i].additionalProperties[6].value)
+          pointsData[i].push(bikesData[i].additionalProperties[8].value)
+        }
+
+        dockSize.selectAll("circle")
+          .data(pointsData)
           .enter()
           .append("circle")
           .attr("cx", function(d) {
-            return projection([d.lon, d.lat])[0];
+            return d[0];
           })
           .attr("cy", function(d) {
-            return projection([d.lat, d.lon])[1];
+            return d[1];
           })
-          .attr("r", 20)
-           .style("fill", "black")
-           .style("opacity", 1);
+          .attr("r", function(d) {
+            return Math.cbrt(d[3]);
+          })
+           .style("fill", "red")
+           .style("opacity", 0.8);
 
     </script>
   </body>
