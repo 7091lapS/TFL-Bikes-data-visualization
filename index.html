@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title>Boris Bikes Visualization</title>
-    <script type="text/javascript" src="d3/d3.v3.js"></script>
+    <script type="text/javascript" src="d3/d3.min.js"></script>
     <script src="http://d3js.org/topojson.v0.min.js"></script>
-    <script src="bikesDataPlaceholder.json"></script>
+    <script type="text/javascript" src="secret.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <script type="text/javascript">
-    
+
       var w = 1000;
       var h = 1000;
+
       var projection = d3.geo.mercator()
         .translate([600, h/2])
 	      .center([0.0, 51.4979])
@@ -26,50 +27,51 @@
         .attr("width", w)
         .attr("height", h);
 
-        var landuse = svg.append("g");
-        var roads = svg.append("g");
-        var roads_residential = svg.append("g");
-        var roads_primary = svg.append("g");
-        var roads_trunk = svg.append("g");
-        var water = svg.append("g");
-        var dockSize = svg.append('g');
-        var bikesLeft = svg.append('g');
+      var landuse = svg.append("g");
+      var roads = svg.append("g");
+      var roads_residential = svg.append("g");
+      var roads_primary = svg.append("g");
+      var roads_trunk = svg.append("g");
+      var water = svg.append("g");
+      var dockSize = svg.append('g');
+      var bikesLeft = svg.append('g');
 
-        d3.json('london.topo.json', function(data) {
+      d3.json('london.topo.json', function(data) {
+        landuse.append("path")
+          .datum(topojson.object(data, data.objects.landuse))
+          .attr("class", "landuse")
+          .attr("d", path);
 
-          landuse.append("path")
-        		.datum(topojson.object(data, data.objects.landuse))
-        		.attr("class", "landuse")
-        		.attr("d", path);
+        roads.append("path")
+          .datum(topojson.object(data, data.objects.roads))
+          .attr("class", "roads")
+          .attr("d", path);
 
-        	roads.append("path")
-        		.datum(topojson.object(data, data.objects.roads))
-        		.attr("class", "roads")
-        		.attr("d", path);
+        roads_residential.append("path")
+          .datum(topojson.object(data, data.objects.roads_residential))
+          .attr("class", "roads_residential")
+          .attr("d", path);
 
-        	roads_residential.append("path")
-        		.datum(topojson.object(data, data.objects.roads_residential))
-        		.attr("class", "roads_residential")
-        		.attr("d", path);
+        roads_primary.append("path")
+          .datum(topojson.object(data, data.objects.roads_primary))
+          .attr("class", "roads_primary")
+          .attr("d", path);
 
-        	roads_primary.append("path")
-        		.datum(topojson.object(data, data.objects.roads_primary))
-        		.attr("class", "roads_primary")
-        		.attr("d", path);
+        roads_trunk.append("path")
+          .datum(topojson.object(data, data.objects.roads_trunk))
+          .attr("class", "roads_trunk")
+          .attr("d", path);
 
-        	roads_trunk.append("path")
-        		.datum(topojson.object(data, data.objects.roads_trunk))
-        		.attr("class", "roads_trunk")
-        		.attr("d", path);
+        water.append("path")
+          .datum(topojson.object(data, data.objects.waterway))
+          .attr("class", "water")
+          .attr("d", path);
+      });
 
-        	water.append("path")
-        		.datum(topojson.object(data, data.objects.waterway))
-        		.attr("class", "water")
-        		.attr("d", path);
-        });
-
+      d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
+        console.log(data);
         dockSize.selectAll("circle")
-          .data(bikesData)
+          .data(data)
           .enter()
           .append("circle")
           .attr("cx", function(d) {
@@ -81,24 +83,25 @@
           .attr("r", function(d) {
             return Math.cbrt(d.additionalProperties[8].value);
           })
-           .style("fill", "red")
+           .style("fill", "green")
            .style("opacity", 0.8);
 
-          bikesLeft.selectAll("circle")
-            .data(bikesData)
-            .enter()
-            .append("circle")
-            .attr("cx", function(d) {
-              return projection([d.lon, d.lat])[0];
-            })
-            .attr("cy", function(d) {
-              return projection([d.lon, d.lat])[1];
-            })
-            .attr("r", function(d) {
-              return Math.cbrt(d.additionalProperties[6].value);
-            })
-             .style("fill", "yellow")
-             .style("opacity", 0.5);
+        bikesLeft.selectAll("circle")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("cx", function(d) {
+            return projection([d.lon, d.lat])[0];
+          })
+          .attr("cy", function(d) {
+            return projection([d.lon, d.lat])[1];
+          })
+          .attr("r", function(d) {
+            return Math.cbrt(d.additionalProperties[6].value);
+          })
+           .style("fill", "yellow")
+           .style("opacity", 0.5);
+      });
     </script>
   </body>
 </html>
