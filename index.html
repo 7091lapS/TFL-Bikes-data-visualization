@@ -11,32 +11,30 @@
   <body>
     <script type="text/javascript">
 
-      var w = 1000;
-      var h = 1000;
 
-      var projection = d3.geo.mercator()
-        .translate([600, h/2])
-	      .center([0.0, 51.4979])
-	      .scale(150000);
-
-      var path = d3.geo.path()
-        .projection(projection);
-
+      var w = 800;
+      var h = 500;
       var svg = d3.select("body")
         .append("svg")
-        .attr("width", w)
-        .attr("height", h);
+        .attr("viewBox", "0 0 " + w + " " + h )
+        .attr("preserveAspectRatio", "xMidYMid meet");
 
-      var landuse = svg.append("g");
-      var roads = svg.append("g");
-      var roads_residential = svg.append("g");
-      var roads_primary = svg.append("g");
-      var roads_trunk = svg.append("g");
-      var water = svg.append("g");
-      var dockSize = svg.append('g');
-      var bikesLeft = svg.append('g');
+      var projection = d3.geo.mercator()
+        .translate([540, h/2])
+        .center([0.0, 51.4979])
+        .scale(180000);
 
       d3.json('london.topo.json', function(data) {
+
+        var path = d3.geo.path()
+          .projection(projection);
+        var landuse = svg.append("g");
+        var roads = svg.append("g");
+        var roads_residential = svg.append("g");
+        var roads_primary = svg.append("g");
+        var roads_trunk = svg.append("g");
+        var water = svg.append("g");
+
         landuse.append("path")
           .datum(topojson.object(data, data.objects.landuse))
           .attr("class", "landuse")
@@ -69,11 +67,17 @@
       });
 
       d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
-        console.log(data);
+
+        var dockSize = svg.append('g');
+        var bikesLeft = svg.append('g');
         dockSize.selectAll("circle")
           .data(data)
           .enter()
           .append("circle")
+          .attr("r", 0)
+          .style("fill-opacity", 0)
+          .transition()
+          .duration(2000)
           .attr("cx", function(d) {
             return projection([d.lon, d.lat])[0];
           })
@@ -81,15 +85,20 @@
             return projection([d.lon, d.lat])[1];
           })
           .attr("r", function(d) {
-            return Math.cbrt(d.additionalProperties[8].value);
+            return Math.cbrt(2 * d.additionalProperties[8].value);
           })
            .style("fill", "green")
-           .style("opacity", 0.8);
+           .style("fill-opacity", 0.8);
 
         bikesLeft.selectAll("circle")
           .data(data)
           .enter()
           .append("circle")
+          .attr("r", 0)
+          .style("fill-opacity", 0)
+          .transition()
+          .delay(500)
+          .duration(2000)
           .attr("cx", function(d) {
             return projection([d.lon, d.lat])[0];
           })
@@ -97,10 +106,10 @@
             return projection([d.lon, d.lat])[1];
           })
           .attr("r", function(d) {
-            return Math.cbrt(d.additionalProperties[6].value);
+            return Math.cbrt(2 * d.additionalProperties[6].value);
           })
            .style("fill", "yellow")
-           .style("opacity", 0.5);
+           .style("fill-opacity", 0.5);
       });
     </script>
   </body>
