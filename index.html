@@ -10,30 +10,28 @@
   </head>
   <body>
     <script type="text/javascript">
-
-
       var w = 800;
       var h = 500;
       var svg = d3.select("body")
         .append("svg")
         .attr("viewBox", "0 0 " + w + " " + h )
         .attr("preserveAspectRatio", "xMidYMid meet");
-
       var projection = d3.geo.mercator()
         .translate([540, h/2])
         .center([0.0, 51.4979])
         .scale(180000);
+      var path = d3.geo.path()
+        .projection(projection);
+      var landuse = svg.append("g");
+      var roads = svg.append("g");
+      var roads_residential = svg.append("g");
+      var roads_primary = svg.append("g");
+      var roads_trunk = svg.append("g");
+      var water = svg.append("g");
+      var dockSize = svg.append('g');
+      var bikesLeft = svg.append('g');
 
       d3.json('london.topo.json', function(data) {
-
-        var path = d3.geo.path()
-          .projection(projection);
-        var landuse = svg.append("g");
-        var roads = svg.append("g");
-        var roads_residential = svg.append("g");
-        var roads_primary = svg.append("g");
-        var roads_trunk = svg.append("g");
-        var water = svg.append("g");
 
         landuse.append("path")
           .datum(topojson.object(data, data.objects.landuse))
@@ -68,8 +66,6 @@
 
       d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
 
-        var dockSize = svg.append('g');
-        var bikesLeft = svg.append('g');
         dockSize.selectAll("circle")
           .data(data)
           .enter()
@@ -87,8 +83,8 @@
           .attr("r", function(d) {
             return Math.cbrt(2 * d.additionalProperties[8].value);
           })
-           .style("fill", "green")
-           .style("fill-opacity", 0.8);
+          .style("fill", "green")
+          .style("fill-opacity", 0.8);
 
         bikesLeft.selectAll("circle")
           .data(data)
@@ -108,9 +104,21 @@
           .attr("r", function(d) {
             return Math.cbrt(2 * d.additionalProperties[6].value);
           })
-           .style("fill", "yellow")
-           .style("fill-opacity", 0.5);
+          .style("fill", "yellow")
+          .style("fill-opacity", 0.5);
       });
+
+      setInterval(function() {console.log("update!"); d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data) {
+          bikesLeft.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(2500)
+            .attr("r", function(d) {
+              return Math.cbrt(2 * d.additionalProperties[6].value);
+            });
+        })
+      }, 306000);
+
     </script>
   </body>
 </html>
