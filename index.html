@@ -30,6 +30,13 @@
       var water = svg.append("g");
       var dockSize = svg.append('g');
       var bikesLeft = svg.append('g');
+      var bikesUsed = function(data) {
+        var bikes = 0
+        for(var i = 0; i < data.length; i++) {
+          bikes += parseInt(data[i].additionalProperties[7].value);
+        }
+        return bikes;
+      }
 
       d3.json('london.topo.json', function(data) {
 
@@ -65,6 +72,20 @@
       });
 
       d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
+
+        svg.append('text')
+          .attr('class', 'textData')
+          .data(data)
+          .attr("x", w - w/4)
+          .attr("y", 300)
+          .append('svg:tspan')
+          .attr('x', w - w/4 )
+          .attr('dy', 5)
+          .text(bikesUsed(data) + " bikes used")
+          .append('svg:tspan')
+          .attr('x', w - w/4)
+          .attr('dy', 20)
+          .text(data.length + " bike points")
 
         dockSize.selectAll("circle")
           .data(data)
@@ -118,6 +139,7 @@
             });
         })
       }, 306000);
+
 
     </script>
   </body>

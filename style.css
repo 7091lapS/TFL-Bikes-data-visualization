@@ -26,3 +26,12 @@ svg {
 .roads_trunk {
   fill: none;
 }
+
+.textData {
+  font-size: 20px;
+  font-family: helvetica;
+}
+
+.bikesUsed {
+  padding-bottom: 50px;
+}
