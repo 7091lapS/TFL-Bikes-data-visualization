@@ -7,6 +7,7 @@
     <script src="http://d3js.org/topojson.v0.min.js"></script>
     <script type="text/javascript" src="secret.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/railway-sans" type="text/css"/>
   </head>
   <body>
     <script type="text/javascript">
@@ -80,12 +81,31 @@
           .attr("y", 300)
           .append('svg:tspan')
           .attr('x', w - w/4 )
-          .attr('dy', 5)
+          .attr('dy', 20)
+          .text(data.length + " bike points")
+          .append('svg:tspan')
+          .attr('x', w - w/4)
+          .attr('dy', 20)
           .text(bikesUsed(data) + " bikes used")
           .append('svg:tspan')
           .attr('x', w - w/4)
           .attr('dy', 20)
-          .text(data.length + " bike points")
+          .text(" bikes docked")
+          .append('svg:tspan')
+          .attr('x', w - w/4)
+          .attr('dy', 20)
+          .text(" minutes until update")
+
+        svg.append('text')
+          .attr('class', 'title')
+          .attr("x", w - w/3)
+          .attr("y", 60)
+          .text("Boris bikes visualization")
+          .append('svg:tspan')
+          .attr('class', 'details')
+          .attr("x", w - w/3)
+          .attr("y", 100)
+          .text("A real time visualization of Santander's cycle hires in London")
 
         dockSize.selectAll("circle")
           .data(data)

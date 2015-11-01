@@ -28,10 +28,23 @@ svg {
 }
 
 .textData {
-  font-size: 20px;
+  font-size: 18px;
   font-family: helvetica;
+  font-family: 'RailwayRegular';
 }
 
 .bikesUsed {
-  padding-bottom: 50px;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.title {
+  font-family: 'RailwayRegular';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 25px;
+}
+
+.details {
+  font-size: 15px;
 }
