@@ -47,25 +47,27 @@
           .attr("class", "landuse")
           .attr("d", path)
 
-        roads.append("path")
-          .datum(topojson.object(data, data.objects.roads))
-          .attr("class", "roads")
-          .attr("d", path);
+        // Remove comments to show roads on the map
 
-        roads_residential.append("path")
-          .datum(topojson.object(data, data.objects.roads_residential))
-          .attr("class", "roads_residential")
-          .attr("d", path);
+        // roads.append("path")
+        //   .datum(topojson.object(data, data.objects.roads))
+        //   .attr("class", "roads")
+        //   .attr("d", path);
 
-        roads_primary.append("path")
-          .datum(topojson.object(data, data.objects.roads_primary))
-          .attr("class", "roads_primary")
-          .attr("d", path);
-
-        roads_trunk.append("path")
-          .datum(topojson.object(data, data.objects.roads_trunk))
-          .attr("class", "roads_trunk")
-          .attr("d", path);
+        // roads_residential.append("path")
+        //   .datum(topojson.object(data, data.objects.roads_residential))
+        //   .attr("class", "roads_residential")
+        //   .attr("d", path);
+        //
+        // roads_primary.append("path")
+        //   .datum(topojson.object(data, data.objects.roads_primary))
+        //   .attr("class", "roads_primary")
+        //   .attr("d", path);
+        //
+        // roads_trunk.append("path")
+        //   .datum(topojson.object(data, data.objects.roads_trunk))
+        //   .attr("class", "roads_trunk")
+        //   .attr("d", path);
 
         water.append("path")
           .datum(topojson.object(data, data.objects.waterway))
@@ -95,15 +97,20 @@
           .attr('dy', 20)
           .text((dockingData(data))[1] + " bikes docked")
 
-        svg.append('text')
+        svg.append('foreignObject')
           .attr('class', 'title')
           .attr("x", w - w/3)
           .attr("y", 60)
+          .attr("width", 255)
+          .attr("height", 50)
           .text("Boris bikes visualization")
-          .append('svg:tspan')
+
+        svg.append('foreignObject')
           .attr('class', 'details')
           .attr("x", w - w/3)
           .attr("y", 100)
+          .attr("width", 255)
+          .attr("height", 100)
           .text("A real time visualization of Santander cycles' hires in London. The data is automatically updated every 5 minutes.")
 
         dockSize.selectAll("circle")
