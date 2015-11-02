@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Boris Bikes Visualization</title>
-    <script type="text/javascript" src="d3/d3.min.js"></script>
+    <script type="text/javascript" src="d3.min.js"></script>
     <script src="http://d3js.org/topojson.v0.min.js"></script>
-    <script type="text/javascript" src="secret.js"></script>
+    <script type="text/javascript" src="../secret.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/railway-sans" type="text/css"/>
   </head>
@@ -111,7 +111,7 @@
           .attr("y", 100)
           .attr("width", 255)
           .attr("height", 100)
-          .text("A real time visualization of Santander cycles' hires in London. The data, provided by Tfl, is automatically updated every 5 minutes.");
+          .text("A real time visualization of Santander cycles hires in London. The data, provided by Tfl, is automatically updated every 5 minutes.");
 
         dockSize.selectAll("circle")
           .data(data)
@@ -166,9 +166,9 @@
               return Math.cbrt(2 * d.additionalProperties[6].value);
             });
           svg.selectAll('.bikes-used')
-            .text((dockingData(data))[0] + " bikes used")
+            .text((dockingData(data))[0] + " bikes used");
           svg.selectAll('.bikes-docked')
-            .text((dockingData(data))[1] + " bikes docked")
+            .text((dockingData(data))[1] + " bikes docked");
         })
       }, 306000);
     </script>
