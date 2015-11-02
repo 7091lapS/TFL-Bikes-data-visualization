@@ -33,9 +33,12 @@ svg {
   font-family: 'RailwayRegular';
 }
 
-.bikesUsed {
-  font-weight: normal;
-  font-style: normal;
+.bikes-used {
+  fill: green;
+}
+
+.bikes-docked {
+  fill: rgb(152, 203, 43);
 }
 
 .title {

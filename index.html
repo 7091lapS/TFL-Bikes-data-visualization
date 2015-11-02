@@ -92,10 +92,10 @@
           .attr('dy', 20)
           .text((dockingData(data))[0] + " bikes used")
           .append('svg:tspan')
-          .attr('class', 'bikes-used')
+          .attr('class', 'bikes-docked')
           .attr('x', w - w/4)
           .attr('dy', 20)
-          .text((dockingData(data))[1] + " bikes docked")
+          .text((dockingData(data))[1] + " bikes docked");
 
         svg.append('foreignObject')
           .attr('class', 'title')
@@ -103,7 +103,7 @@
           .attr("y", 60)
           .attr("width", 255)
           .attr("height", 50)
-          .text("Boris bikes visualization")
+          .text("Boris bikes visualization");
 
         svg.append('foreignObject')
           .attr('class', 'details')
@@ -111,7 +111,7 @@
           .attr("y", 100)
           .attr("width", 255)
           .attr("height", 100)
-          .text("A real time visualization of Santander cycles' hires in London. The data is automatically updated every 5 minutes.")
+          .text("A real time visualization of Santander cycles' hires in London. The data, provided by Tfl, is automatically updated every 5 minutes.");
 
         dockSize.selectAll("circle")
           .data(data)
