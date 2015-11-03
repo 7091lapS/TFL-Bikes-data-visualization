@@ -27,9 +27,8 @@ svg {
   fill: none;
 }
 
-.textData {
+.bike-points, .bikes-docked, .bikes-used, .title, .details {
   font-size: 18px;
-  font-family: helvetica;
   font-family: 'RailwayRegular';
 }
 
@@ -42,7 +41,6 @@ svg {
 }
 
 .title {
-  font-family: 'RailwayRegular';
   font-weight: normal;
   font-style: normal;
   font-size: 25px;
@@ -50,5 +48,4 @@ svg {
 
 .details {
   font-size: 12px;
-  font-family: 'RailwayRegular';
 }

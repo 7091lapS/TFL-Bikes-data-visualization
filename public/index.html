@@ -5,7 +5,7 @@
     <title>Boris Bikes Visualization</title>
     <script type="text/javascript" src="d3.min.js"></script>
     <script src="http://d3js.org/topojson.v0.min.js"></script>
-    <script type="text/javascript" src="../secret.js"></script>
+    <script type="text/javascript" src="secret.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/railway-sans" type="text/css"/>
   </head>
@@ -30,6 +30,9 @@
       var water = svg.append("g");
       var dockSize = svg.append('g');
       var bikesLeft = svg.append('g');
+      var usedText = svg.append('text');
+      var dockedText = svg.append('text');
+      var pointsText = svg.append('text');
       var dockingData = function(data) {
         var bikesUsed = 0
         var bikesDocked = 0
@@ -77,24 +80,22 @@
 
       d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
 
-        svg.append('text')
-          .attr('class', 'textData')
-          .data(data)
-          .attr("x", w - w/4)
-          .attr("y", 300)
-          .append('svg:tspan')
+        pointsText
+          .attr('class', 'bike-points')
           .attr('x', w - w/4 )
-          .attr('dy', 20)
-          .text(data.length + " bike points")
-          .append('svg:tspan')
+          .attr('y', 300)
+          .text(data.length + " bike points");
+
+        usedText
           .attr('class', 'bikes-used')
           .attr('x', w - w/4)
-          .attr('dy', 20)
-          .text((dockingData(data))[0] + " bikes used")
-          .append('svg:tspan')
+          .attr('y', 320)
+          .text((dockingData(data))[0] + " bikes used");
+
+        dockedText
           .attr('class', 'bikes-docked')
           .attr('x', w - w/4)
-          .attr('dy', 20)
+          .attr('y', 340)
           .text((dockingData(data))[1] + " bikes docked");
 
         svg.append('foreignObject')
@@ -170,7 +171,7 @@
           svg.selectAll('.bikes-docked')
             .text((dockingData(data))[1] + " bikes docked");
         })
-      }, 306000);
+      }, 6000);
     </script>
   </body>
 </html>
