@@ -4,7 +4,6 @@ require 'sinatra/cross_origin'
 class Server < Sinatra::Base
 
     register Sinatra::CrossOrigin
-    # use Rack::MethodOverride
 
     configure do
       enable :cross_origin

@@ -13,14 +13,17 @@
     <script type="text/javascript">
       var w = 800;
       var h = 500;
+
       var svg = d3.select("body")
         .append("svg")
         .attr("viewBox", "0 0 " + w + " " + h )
         .attr("preserveAspectRatio", "xMidYMid meet");
+
       var projection = d3.geo.mercator()
         .translate([540, h/2])
         .center([0.0, 51.4979])
         .scale(180000);
+
       var path = d3.geo.path().projection(projection);
       var landuse = svg.append("g");
       var roads = svg.append("g");
@@ -33,22 +36,43 @@
       var usedText = svg.append('text');
       var dockedText = svg.append('text');
       var pointsText = svg.append('text');
+
       var dockingData = function(data) {
         var bikesUsed = 0
         var bikesDocked = 0
-        for(var i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
           bikesUsed += parseInt(data[i].additionalProperties[7].value);
           bikesDocked += parseInt(data[i].additionalProperties[6].value);
         }
         return [bikesUsed, bikesDocked];
       };
 
-      d3.json('london.topo.json', function(data) {
+      var dataUpdate = function() {
+        d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data) {
+          bikesLeft.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(2500)
+            .attr("r", function(d) {
+              return Math.cbrt(2 * d.additionalProperties[6].value);
+            });
+          svg.selectAll('.bikes-used')
+            .text((dockingData(data))[0] + " bikes used");
+          svg.selectAll('.bikes-docked')
+            .text((dockingData(data))[1] + " bikes docked");
+        })
+      }
 
+      d3.json('london.topo.json', function(data) {
         landuse.append("path")
           .datum(topojson.object(data, data.objects.landuse))
           .attr("class", "landuse")
           .attr("d", path)
+
+        water.append("path")
+          .datum(topojson.object(data, data.objects.waterway))
+          .attr("class", "water")
+          .attr("d", path);
 
         // Remove comments to show roads on the map
 
@@ -72,14 +96,9 @@
         //   .attr("class", "roads_trunk")
         //   .attr("d", path);
 
-        water.append("path")
-          .datum(topojson.object(data, data.objects.waterway))
-          .attr("class", "water")
-          .attr("d", path);
       });
 
       d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
-
         pointsText
           .attr('class', 'bike-points')
           .attr('x', w - w/4 )
@@ -155,23 +174,8 @@
           .style("fill", "yellow")
           .style("fill-opacity", 0.5);
       });
-
       // Update data every 5 minutes
-
-      setInterval(function() {console.log("update!"); d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data) {
-          bikesLeft.selectAll("circle")
-            .data(data)
-            .transition()
-            .duration(2500)
-            .attr("r", function(d) {
-              return Math.cbrt(2 * d.additionalProperties[6].value);
-            });
-          svg.selectAll('.bikes-used')
-            .text((dockingData(data))[0] + " bikes used");
-          svg.selectAll('.bikes-docked')
-            .text((dockingData(data))[1] + " bikes docked");
-        })
-      }, 306000);
+      setInterval(function() { dataUpdate(); }, 306000);
     </script>
   </body>
 </html>
