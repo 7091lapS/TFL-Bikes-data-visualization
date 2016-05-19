@@ -74,7 +74,9 @@
           .attr("class", "water")
           .attr("d", path);
 
-      }, d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
+      });
+      
+      d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
         pointsText
           .attr('class', 'bike-points')
           .attr('x', w - w/4 )
@@ -149,7 +151,7 @@
           })
           .style("fill", "yellow")
           .style("fill-opacity", 0.5);
-      }));
+      });
 
 
       // Update data every 5 minutes
