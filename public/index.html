@@ -63,7 +63,8 @@
         })
       }
 
-      d3.json('london.topo.json', function(data) {
+      function loadMap() {
+        d3.json('london.topo.json', function(data) {
         landuse.append("path")
           .datum(topojson.object(data, data.objects.landuse))
           .attr("class", "landuse")
@@ -73,32 +74,10 @@
           .datum(topojson.object(data, data.objects.waterway))
           .attr("class", "water")
           .attr("d", path);
-
-        // Remove comments to show roads on the map
-
-        // roads.append("path")
-        //   .datum(topojson.object(data, data.objects.roads))
-        //   .attr("class", "roads")
-        //   .attr("d", path);
-
-        // roads_residential.append("path")
-        //   .datum(topojson.object(data, data.objects.roads_residential))
-        //   .attr("class", "roads_residential")
-        //   .attr("d", path);
-        //
-        // roads_primary.append("path")
-        //   .datum(topojson.object(data, data.objects.roads_primary))
-        //   .attr("class", "roads_primary")
-        //   .attr("d", path);
-        //
-        // roads_trunk.append("path")
-        //   .datum(topojson.object(data, data.objects.roads_trunk))
-        //   .attr("class", "roads_trunk")
-        //   .attr("d", path);
-
-      });
-
-      d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
+        })
+      };
+function loadData() {
+    d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
         pointsText
           .attr('class', 'bike-points')
           .attr('x', w - w/4 )
@@ -174,6 +153,10 @@
           .style("fill", "yellow")
           .style("fill-opacity", 0.5);
       });
+    }
+
+      loadMap();
+      loadData();
       // Update data every 5 minutes
       setInterval(function() { dataUpdate(); }, 306000);
     </script>
