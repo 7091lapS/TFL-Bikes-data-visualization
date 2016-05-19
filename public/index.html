@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Boris Bikes Visualization</title>
     <script type="text/javascript" src="d3.min.js"></script>
-    <script src="http://d3js.org/topojson.v0.min.js"></script>
+    <script type="text/javascript" src="topojson.min.js"></script>
     <script type="text/javascript" src="secret.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/railway-sans" type="text/css"/>
@@ -65,18 +65,16 @@
 
       d3.json('london.topo.json', function(data) {
         landuse.append("path")
-          .datum(topojson.object(data, data.objects.landuse))
+          .datum(topojson.feature(data, data.objects.landuse))
           .attr("class", "landuse")
           .attr("d", path)
 
         water.append("path")
-          .datum(topojson.object(data, data.objects.waterway))
+          .datum(topojson.feature(data, data.objects.waterway))
           .attr("class", "water")
           .attr("d", path);
 
-      });
-      
-      d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
+      }, d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
         pointsText
           .attr('class', 'bike-points')
           .attr('x', w - w/4 )
@@ -151,7 +149,10 @@
           })
           .style("fill", "yellow")
           .style("fill-opacity", 0.5);
-      });
+      })
+    );
+
+
 
 
       // Update data every 5 minutes
