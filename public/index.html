@@ -63,8 +63,7 @@
         })
       }
 
-      function loadMap() {
-        d3.json('london.topo.json', function(data) {
+      d3.json('london.topo.json', function(data) {
         landuse.append("path")
           .datum(topojson.object(data, data.objects.landuse))
           .attr("class", "landuse")
@@ -74,10 +73,8 @@
           .datum(topojson.object(data, data.objects.waterway))
           .attr("class", "water")
           .attr("d", path);
-        })
-      };
-function loadData() {
-    d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
+
+      }, d3.json("https://api.tfl.gov.uk/BikePoint?app_id=" + appId + "&app_key=" + appKey, function(data){
         pointsText
           .attr('class', 'bike-points')
           .attr('x', w - w/4 )
@@ -152,11 +149,9 @@ function loadData() {
           })
           .style("fill", "yellow")
           .style("fill-opacity", 0.5);
-      });
-    }
+      }));
 
-      loadMap();
-      loadData();
+
       // Update data every 5 minutes
       setInterval(function() { dataUpdate(); }, 306000);
     </script>
