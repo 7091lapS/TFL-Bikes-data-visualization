@@ -2,7 +2,7 @@
 
 A personal project to explore D3.js. My aim is to create some sort of dynamic data visualization of available public bikes in the city of London over the course of a day. The data is retrieved from the TFL Unified API.
 
-A working version of the visualization can be viewed at [this address](https://nameless-spire-7380.herokuapp.com)
+A working version of the visualization can be viewed at [this address](https://pure-garden-44629.herokuapp.com/)
 
 ## How the app works
 
